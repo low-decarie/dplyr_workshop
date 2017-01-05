@@ -11,6 +11,9 @@ transition: fade
 
 January 5, 2017
 
+Presentation: https://low-decarie.github.io/dplyr_workshop/#/
+code: https://github.com/low-decarie/dplyr_workshop/tree/simplified_for_intro_to_r
+
 
 Split-Apply-Combine
 ===
@@ -168,21 +171,11 @@ print(p)
 ```
 
 
-Create a beautiful table of summarized data
-===
-
-```{r fig.width=6, fig.height=3,echo=T}
-if(!require(gridExtra)){install.packages("gridExtra")}
-require(gridExtra)
-grid.newpage()
-grid.table(head(data.frame(CO2_max_per_plant)))
-```
 
 Exercise 1
 ===
 
 - Calculate the mean for each species value for each dimension of sepals and petals in the `iris` data set
-- Produce an elegant table
 
 
 <div class="centered">
