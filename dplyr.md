@@ -11,6 +11,9 @@ transition: fade
 
 January 5, 2017
 
+Presentation: https://low-decarie.github.io/dplyr_workshop/#/
+code: https://github.com/low-decarie/dplyr_workshop/tree/simplified_for_intro_to_r
+
 
 Split-Apply-Combine
 ===
@@ -220,24 +223,11 @@ p <- ggplot(data=CO2_max_per_plant,
 ![plot of chunk unnamed-chunk-11](dplyr-figure/unnamed-chunk-11-1.png)
 
 
-Create a beautiful table of summarized data
-===
-
-
-```r
-if(!require(gridExtra)){install.packages("gridExtra")}
-require(gridExtra)
-grid.newpage()
-grid.table(head(data.frame(CO2_max_per_plant)))
-```
-
-![plot of chunk unnamed-chunk-12](dplyr-figure/unnamed-chunk-12-1.png)
 
 Exercise 1
 ===
 
 - Calculate the mean for each species value for each dimension of sepals and petals in the `iris` data set
-- Produce an elegant table
 
 
 <div class="centered">
@@ -281,7 +271,7 @@ CO2.plot <- qplot(data = CO2_with_deviation,
 print(CO2.plot)
 ```
 
-![plot of chunk unnamed-chunk-14](dplyr-figure/unnamed-chunk-14-1.png)
+![plot of chunk unnamed-chunk-13](dplyr-figure/unnamed-chunk-13-1.png)
 
 
 
@@ -332,7 +322,7 @@ p <- ggplot(data=CO2_fit,aes(x=Type,
 
 ***
 
-![plot of chunk unnamed-chunk-18](dplyr-figure/unnamed-chunk-18-1.png)
+![plot of chunk unnamed-chunk-17](dplyr-figure/unnamed-chunk-17-1.png)
 
 
 
