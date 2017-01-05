@@ -4,10 +4,13 @@
 }
 </style>
 
-dplyr
+dplyr (simplified)
 ========================================================
 author: Etienne Low-Décarie
 transition: fade
+
+January 5, 2017
+
 
 Split-Apply-Combine
 ===
@@ -31,67 +34,42 @@ Split-Apply-Combine
   - collect the results
   
 
-History and use
-===
-
-- plyr
-  - any input, any output
-      - to load a list of files
-      - to produce plots
-  - slow and complicated
-
-***
-
-- dplyr
-  - data.frame in/data.frame out
-  - faster
-  - Details:
-   - introducing chaining to R
-   - remote database integration
-    
-    
-Conflict between plyr and dplyr
-===
-
-`plyr` and `dplyr` do not play nice together  
-Always load `dplyr` last  
-Be careful of packages that load `plyr` 
-
-```{r fig.width=3, fig.height=3,echo=T}
-require(plyr)
-require(dplyr)
-```
-
-you can also use `dplyr:::` to ensure functions are called from dplyr  
-
-[issue](https://github.com/hadley/dplyr/issues/347)
 
 dplyr    
 ===
 
-Vignette
-[https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
-
 Cheatsheet
 [https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
+install
+===
+
+```{r fig.width=3, fig.height=3,echo=T}
+if(!require(dplyr)){install.packages("dplyr")}
+require(dplyr)
+
+```
 
 Grouping
 ===
 
 **Split** -Apply-Combine
 
-- `group_by()`
+```{r fig.width=3, fig.height=3,eval=F}
+group_by(data,
+         grouping_variable_1,
+         grouping_variable_2)
+
+```
 
 Group data
 ===
 
 ```{r fig.width=3, fig.height=3,echo=T}
-if(!require(dplyr)){install.packages("dplyr")}
-require(dplyr)
-CO2_by_Plant_Type_Treatment <- group_by(CO2,
-                                        Plant,
-                                        Type,
-                                        Treatment)
+CO2_grouped <- group_by(CO2,
+                           Plant,
+                           Type,
+                           Treatment)
 ```
 
 
@@ -101,8 +79,8 @@ group data
 `group_by` implies `tbl_df`
 `tbl_df` wraps a `data.frame`
 ```{r fig.width=3, fig.height=3,echo=T}
-print(CO2_by_Plant_Type_Treatment)
-class(CO2_by_Plant_Type_Treatment)
+print(CO2_grouped)
+class(CO2_grouped)
 ```
 
 group data
@@ -111,8 +89,8 @@ group data
 **Caution when working with functions that expect a `data.frame`**
 
 ```{r fig.width=3, fig.height=3,echo=T}
-class(CO2_by_Plant_Type_Treatment)
-head(as.data.frame(CO2_by_Plant_Type_Treatment))
+class(CO2_grouped)
+head(as.data.frame(CO2_grouped))
 ```
 
 
@@ -152,7 +130,7 @@ Summarize by extracting maximum uptake per plant
 
 ```{r fig.width=3, fig.height=3,echo=T}
  
-CO2_max_per_plant <- dplyr:::summarise(CO2_by_Plant_Type_Treatment,
+CO2_max_per_plant <- dplyr:::summarise(CO2_grouped,
                                max_uptake=max(uptake))
 print(CO2_max_per_plant)
 ```
@@ -230,7 +208,7 @@ Calculate deviation from the mean uptake for each plant
 
 ```{r fig.width=3, fig.height=3,echo=T}
 
-CO2_with_deviation <- mutate(CO2_by_Plant_Type_Treatment,
+CO2_with_deviation <- mutate(CO2_grouped,
                                deviation_from_mean=uptake-mean(uptake))
 ```
 
@@ -269,7 +247,7 @@ Using your new function with dplyr
 ===
 
 ```{r fig.width=3, fig.height=3,echo=T}
-CO2_fit <- summarise(CO2_by_Plant_Type_Treatment,
+CO2_fit <- summarise(CO2_grouped,
                      intercept=intercept_slope(conc, uptake)$intercept,
                      slope=intercept_slope(conc, uptake)$slope)
 ```
@@ -320,11 +298,11 @@ Chaining operations
 (equivalent to "|" in bash)
 
 ```{r fig.width=3, fig.height=3}
-CO2_by_Plant_Type_Treatment <- group_by(CO2,
+CO2_grouped <- group_by(CO2,
                                         Plant,
                                         Type,
                                         Treatment)
-CO2_max_per_plant <- summarise(CO2_by_Plant_Type_Treatment,
+CO2_max_per_plant <- summarise(CO2_grouped,
                                max_uptake=max(uptake))
 ```
 
@@ -339,29 +317,7 @@ CO2_max_per_plant <-CO2 %>%
 ```
 
 
-Do
-===
 
-`do` is like `mutate` or `summarise`, but returns a list of any `R` objects
-
-```{r fig.width=3, fig.height=3}
-
-CO2_fit <- CO2_by_Plant_Type_Treatment %>%
-          do(model=lm(uptake~conc, data=.))
-
-```
-
-
-do and broom
-===
-
-
-```{r fig.width=3, fig.height=3}
-require(broom)
-CO2_fit <- CO2_by_Plant_Type_Treatment %>%
-          do(tidy(lm(uptake~conc, data=.)))
-
-```
 
 Exercise 3
 ===
@@ -387,170 +343,16 @@ var myCountdown1 = new Countdown({
 </div>
 
 
-Split verbes
-===
-
-- `filter`
-```{r eval=F}
-filter(iris, Sepal.Width==3)
- 
-mtcars[iris$Sepal.Width == 3,]
-```
-
-- `select`
-```{r eval=F}
-select(iris, Species)
-iris[,"Species"]
-```
-
-```{r eval=F}
-select(iris, starts_with("Petal"))
-```
-
-
 dplyr database
 ===
 
-https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html
-
-create a database
-```{r}
-my_db <- src_sqlite("my_db.sqlite3", create = T)
-```
-
-dplyr database
-===
-
-load data into the database
-```{r eval=F}
-CO2_sqlite <- copy_to(my_db,
-                      CO2, 
-                      temporary = FALSE,
-                      indexes = list("Plant",
-                                     "Type",
-                                     "Treatment",
-                                     "conc",
-                                     "uptake"))
-```
-
-dplyr database
-===
-
-use the tables from a database as a regular data.frame
-
-```{r eval=F}
-CO2_max_per_plant <-CO2_sqlite %>%
-                      group_by(Plant,
-                                Type,
-                                Treatment)  %>%
-                      summarise(max_uptake=max(uptake)) 
-```
-
-dplyr database
-===
+dplyr can do most calculations in the database
 
 note that `dplyr` will only execute database calls when needed  
 (when manipulated is being called eg. by `print()`)
 
 
-plyr
-===
 
-- Load list of files
-- Produce large number of complex plots
-
-
-
-`do` for data exploration
-===
-
-Seperate string variable and spreading  (reminder)
-
-```{r fig.width=3, fig.height=3,echo=T}
-require(tidyr)
-
-iris$specimen <- 1:nrow(iris)
-
-long_iris<-gather(iris,"Measurement",
-                  "Value",
-                  Sepal.Length:Petal.Width)
-
-seperated_iris <- separate(long_iris,
-                      Measurement, 
-                      c("Organ", "Dimension"))
-
-wide_iris <- spread(seperated_iris,
-                    Dimension,
-                    Value)
-```
-
-
-`do` for data exploration
-===
-
-```{r fig.width=3, fig.height=3,echo=T, eval=F}
-list_plots <- wide_iris %>% group_by(Species) %>%
-      do(print(qplot(data=.,
-                    ymin=I(0),
-                    ymax=Length,
-                    xmin=I(0),
-                    xmax=Width,
-                    xlim=c(0,10),
-                    ylim=c(0,10),
-                    geom="rect",
-                    facets=~specimen,
-                    alpha=I(0.3),
-                    fill=Organ)))
-
-
-```
-
-plyr
-===
-
-`_input_output_ply` functions:
-
-`ddply`: data.frame in, data.frame out
-can be done in dplyr
-
-`ldply`: list in, data.frame out
-
-
-plyr
-===
-
-```{r fig.width=3, fig.height=3,eval=F}
-__ply(.data, 
-      .variables,
-      .fun = NULL,
-      .progress = "text",
-      .parallel = FALSE,
-      .paropts = NULL)
-```
-
-
-`ldply` for file list loading
-===
-
-How to load and merge into a single data frame
-all files in a directory
-
-```{r fig.width=3, fig.height=3,eval=F}
-
-file_list <- list.files("./Data/",
-                        ".txt")
-
-path_list <- paste0("./Data/",
-                    file_list)
-
-loaded_data <- ldply(.data=path_list,
-                     function(x){
-                       loaded_data <- read.csv(x)
-                       loaded_data$path <- x
-                       return(loaded_data)
-                     }
-                        
-```
 
 Exercise 4
 ===
@@ -581,5 +383,5 @@ var myCountdown1 = new Countdown({
 Feedback
 ===
 
-[Feedback form](http://goo.gl/forms/3mH1UC0fH3)
+[Feedback form](https://goo.gl/forms/1eCOYxMYKuzDfTu62)
 http://goo.gl/forms/3mH1UC0fH3
