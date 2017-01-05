@@ -9,18 +9,6 @@ dplyr
 author: Etienne Low-Décarie
 transition: fade
 
-dplyr and plyr
-===
-
-```{r fig.width=6, fig.height=4,echo=FALSE}
-require(png)
-require(grid)
-img <- readPNG("./dplyr-figure/plyr.png")
- grid.raster(img)
-```
-
-
-
 Split-Apply-Combine
 ===
 

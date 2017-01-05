@@ -9,13 +9,6 @@ dplyr
 author: Etienne Low-Décarie
 transition: fade
 
-dplyr and plyr
-===
-
-![plot of chunk unnamed-chunk-1](dplyr-figure/unnamed-chunk-1-1.png) 
-
-
-
 Split-Apply-Combine
 ===
 
@@ -118,19 +111,19 @@ print(CO2_by_Plant_Type_Treatment)
 Source: local data frame [84 x 5]
 Groups: Plant, Type, Treatment [12]
 
-    Plant   Type  Treatment  conc uptake
-   (fctr) (fctr)     (fctr) (dbl)  (dbl)
-1     Qn1 Quebec nonchilled    95   16.0
-2     Qn1 Quebec nonchilled   175   30.4
-3     Qn1 Quebec nonchilled   250   34.8
-4     Qn1 Quebec nonchilled   350   37.2
-5     Qn1 Quebec nonchilled   500   35.3
-6     Qn1 Quebec nonchilled   675   39.2
-7     Qn1 Quebec nonchilled  1000   39.7
-8     Qn2 Quebec nonchilled    95   13.6
-9     Qn2 Quebec nonchilled   175   27.3
-10    Qn2 Quebec nonchilled   250   37.1
-..    ...    ...        ...   ...    ...
+   Plant   Type  Treatment  conc uptake
+*  <ord> <fctr>     <fctr> <dbl>  <dbl>
+1    Qn1 Quebec nonchilled    95   16.0
+2    Qn1 Quebec nonchilled   175   30.4
+3    Qn1 Quebec nonchilled   250   34.8
+4    Qn1 Quebec nonchilled   350   37.2
+5    Qn1 Quebec nonchilled   500   35.3
+6    Qn1 Quebec nonchilled   675   39.2
+7    Qn1 Quebec nonchilled  1000   39.7
+8    Qn2 Quebec nonchilled    95   13.6
+9    Qn2 Quebec nonchilled   175   27.3
+10   Qn2 Quebec nonchilled   250   37.1
+# ... with 74 more rows
 ```
 
 ```r
@@ -180,12 +173,12 @@ Split-**Apply-Combine**
 - `mutate`
 
 
-![plot of chunk unnamed-chunk-6](dplyr-figure/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-5](dplyr-figure/unnamed-chunk-5-1.png)
 
 - `summarise`
 
 
-![plot of chunk unnamed-chunk-7](dplyr-figure/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-6](dplyr-figure/unnamed-chunk-6-1.png)
 
 
 Summarize grouped data
@@ -205,20 +198,20 @@ print(CO2_max_per_plant)
 Source: local data frame [12 x 4]
 Groups: Plant, Type [?]
 
-    Plant        Type  Treatment max_uptake
-   (fctr)      (fctr)     (fctr)      (dbl)
-1     Qn1      Quebec nonchilled       39.7
-2     Qn2      Quebec nonchilled       44.3
-3     Qn3      Quebec nonchilled       45.5
-4     Qc1      Quebec    chilled       38.7
-5     Qc3      Quebec    chilled       41.4
-6     Qc2      Quebec    chilled       42.4
-7     Mn3 Mississippi nonchilled       28.5
-8     Mn2 Mississippi nonchilled       32.4
-9     Mn1 Mississippi nonchilled       35.5
-10    Mc2 Mississippi    chilled       14.4
-11    Mc3 Mississippi    chilled       19.9
-12    Mc1 Mississippi    chilled       22.2
+   Plant        Type  Treatment max_uptake
+   <ord>      <fctr>     <fctr>      <dbl>
+1    Qn1      Quebec nonchilled       39.7
+2    Qn2      Quebec nonchilled       44.3
+3    Qn3      Quebec nonchilled       45.5
+4    Qc1      Quebec    chilled       38.7
+5    Qc3      Quebec    chilled       41.4
+6    Qc2      Quebec    chilled       42.4
+7    Mn3 Mississippi nonchilled       28.5
+8    Mn2 Mississippi nonchilled       32.4
+9    Mn1 Mississippi nonchilled       35.5
+10   Mc2 Mississippi    chilled       14.4
+11   Mc3 Mississippi    chilled       19.9
+12   Mc1 Mississippi    chilled       22.2
 ```
 
 
@@ -247,7 +240,7 @@ p <- ggplot(data=CO2_max_per_plant,
 ***
 
 
-![plot of chunk unnamed-chunk-11](dplyr-figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-10](dplyr-figure/unnamed-chunk-10-1.png)
 
 
 Create a beautiful table of summarized data
@@ -261,7 +254,7 @@ grid.newpage()
 grid.table(head(data.frame(CO2_max_per_plant)))
 ```
 
-![plot of chunk unnamed-chunk-12](dplyr-figure/unnamed-chunk-12-1.png) 
+![plot of chunk unnamed-chunk-11](dplyr-figure/unnamed-chunk-11-1.png)
 
 Exercise 1
 ===
@@ -311,7 +304,7 @@ CO2.plot <- qplot(data = CO2_with_deviation,
 print(CO2.plot)
 ```
 
-![plot of chunk unnamed-chunk-14](dplyr-figure/unnamed-chunk-14-1.png) 
+![plot of chunk unnamed-chunk-13](dplyr-figure/unnamed-chunk-13-1.png)
 
 
 
@@ -362,7 +355,7 @@ p <- ggplot(data=CO2_fit,aes(x=Type,
 
 ***
 
-![plot of chunk unnamed-chunk-18](dplyr-figure/unnamed-chunk-18-1.png) 
+![plot of chunk unnamed-chunk-17](dplyr-figure/unnamed-chunk-17-1.png)
 
 
 
@@ -486,174 +479,53 @@ https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html
 
 create a database
 
-```r
-my_db <- src_sqlite("my_db.sqlite3", create = T)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
+processing file: dplyr.Rpres
+Loading required package: plyr
+Loading required package: dplyr
 
-dplyr database
-===
+Attaching package: 'dplyr'
 
-load data into the database
+The following objects are masked from 'package:plyr':
 
-```r
-CO2_sqlite <- copy_to(my_db,
-                      CO2, 
-                      temporary = FALSE,
-                      indexes = list("Plant",
-                                     "Type",
-                                     "Treatment",
-                                     "conc",
-                                     "uptake"))
+    arrange, count, desc, failwith, id, mutate, rename, summarise,
+    summarize
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Loading required package: png
+Loading required package: grid
+Loading required package: ggplot2
+Loading required package: gridExtra
+
+Attaching package: 'gridExtra'
+
+The following object is masked from 'package:dplyr':
+
+    combine
+
+Loading required package: broom
+Quitting from lines 418-419 (dplyr.Rpres) 
+Error: RSQLite package required to connect to sqlite db
+Execution halted
 ```
-
-dplyr database
-===
-
-use the tables from a database as a regular data.frame
-
-
-```r
-CO2_max_per_plant <-CO2_sqlite %>%
-                      group_by(Plant,
-                                Type,
-                                Treatment)  %>%
-                      summarise(max_uptake=max(uptake)) 
-```
-
-dplyr database
-===
-
-note that `dplyr` will only execute database calls when needed  
-(when manipulated is being called eg. by `print()`)
-
-
-plyr
-===
-
-- Load list of files
-- Produce large number of complex plots
-
-
-
-`do` for data exploration
-===
-
-Seperate string variable and spreading  (reminder)
-
-
-```r
-require(tidyr)
-
-iris$specimen <- 1:nrow(iris)
-
-long_iris<-gather(iris,"Measurement",
-                  "Value",
-                  Sepal.Length:Petal.Width)
-
-seperated_iris <- separate(long_iris,
-                      Measurement, 
-                      c("Organ", "Dimension"))
-
-wide_iris <- spread(seperated_iris,
-                    Dimension,
-                    Value)
-```
-
-
-`do` for data exploration
-===
-
-
-```r
-list_plots <- wide_iris %>% group_by(Species) %>%
-      do(print(qplot(data=.,
-                    ymin=I(0),
-                    ymax=Length,
-                    xmin=I(0),
-                    xmax=Width,
-                    xlim=c(0,10),
-                    ylim=c(0,10),
-                    geom="rect",
-                    facets=~specimen,
-                    alpha=I(0.3),
-                    fill=Organ)))
-```
-
-plyr
-===
-
-`_input_output_ply` functions:
-
-`ddply`: data.frame in, data.frame out
-can be done in dplyr
-
-`ldply`: list in, data.frame out
-
-
-plyr
-===
-
-
-```r
-__ply(.data, 
-      .variables,
-      .fun = NULL,
-      .progress = "text",
-      .parallel = FALSE,
-      .paropts = NULL)
-```
-
-
-`ldply` for file list loading
-===
-
-How to load and merge into a single data frame
-all files in a directory
-
-
-```r
-file_list <- list.files("./Data/",
-                        ".txt")
-
-path_list <- paste0("./Data/",
-                    file_list)
-
-loaded_data <- ldply(.data=path_list,
-                     function(x){
-                       loaded_data <- read.csv(x)
-                       loaded_data$path <- x
-                       return(loaded_data)
-                     }
-```
-
-Exercise 4
-===
-
-- load all files in `temperature_timeseries` using `ldply()`
-- Calculate the annual absolute integrated anomaly for each site (`mutate`)
-- Plot the annual absolute integrated anomaly for each site (`qplot`)
-
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown1 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
-
-
-
-
-
-Feedback
-===
-
-[Feedback form](http://goo.gl/forms/3mH1UC0fH3)
-http://goo.gl/forms/3mH1UC0fH3
