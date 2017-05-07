@@ -9,8 +9,6 @@ dplyr
 author: Etienne Low-Décarie
 transition: fade
 
-January 5, 2017
-
 Presentation: https://low-decarie.github.io/dplyr_workshop/#/
 code: https://github.com/low-decarie/dplyr_workshop/tree/simplified_for_intro_to_r
 
