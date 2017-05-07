@@ -4,7 +4,7 @@
 }
 </style>
 
-dplyr (simplified)
+dplyr
 ========================================================
 author: Etienne Low-Décarie
 transition: fade
@@ -13,6 +13,17 @@ January 5, 2017
 
 Presentation: https://low-decarie.github.io/dplyr_workshop/#/
 code: https://github.com/low-decarie/dplyr_workshop/tree/simplified_for_intro_to_r
+
+dplyr
+===
+
+```{r fig.width=6, fig.height=4,echo=FALSE}
+require(png)
+require(grid)
+img <- readPNG("./dplyr-figure/plyr.png")
+ grid.raster(img)
+```
+
 
 
 Split-Apply-Combine
@@ -36,6 +47,40 @@ Split-Apply-Combine
 - Repeat this for all subsets
   - collect the results
   
+History and use
+===
+
+- plyr
+  - any input, any output
+      - to load a list of files
+      - to produce plots
+  - slow and complicated
+
+***
+
+- dplyr
+  - data.frame in/data.frame out
+  - faster
+  - Details:
+   - introducing chaining to R
+   - remote database integration
+    
+    
+Conflict between plyr and dplyr
+===
+
+`plyr` and `dplyr` do not play nice together  
+Always load `dplyr` last  
+Be careful of packages that load `plyr` 
+
+```{r fig.width=3, fig.height=3,echo=T}
+require(plyr)
+require(dplyr)
+```
+
+you can also use `dplyr:::` to ensure functions are called from dplyr  
+
+[issue](https://github.com/hadley/dplyr/issues/347)
 
 
 dplyr    
@@ -46,6 +91,8 @@ Cheatsheet
 
 install
 ===
+
+probably already done as part of tidyverse
 
 ```{r fig.width=3, fig.height=3,echo=T}
 if(!require(dplyr)){install.packages("dplyr")}
@@ -178,12 +225,14 @@ Exercise 1
 - Calculate the mean for each species value for each dimension of sepals and petals in the `iris` data set
 
 
+
+
 <div class="centered">
 
 <script src="countdown.js" type="text/javascript"></script>
 <script type="application/javascript">
 var myCountdown1 = new Countdown({
-    							time: 300, 
+    							time: 600, 
 									width:150, 
 									height:80, 
 									rangeHi:"minute"	// <- no comma on last item!
@@ -218,6 +267,25 @@ CO2.plot <- qplot(data = CO2_with_deviation,
 print(CO2.plot)
 ```
 
+Exercise 2
+===
+
+- Calculate the deviation from the species mean for each value in the iris data set
+
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown1 = new Countdown({
+    							time: 600, 
+									width:150, 
+									height:80, 
+									rangeHi:"minute"	// <- no comma on last item!
+									});
+
+</script>
+
+</div>
 
 
 Writing your own functions
@@ -270,17 +338,44 @@ print(p)
 
 
 
-Exercise 2
+
+
+
+
+Do
 ===
 
-- Use the exercise_data_temp_par.csv file
-- Calculate the deviations from the annual means  
-- Calculate the annual absolute integrated anomaly
+`do` is like `mutate` or `summarise`, but returns a list of any `R` objects
+
+```{r fig.width=3, fig.height=3}
+
+CO2_by_Plant_Type_Treatment <- group_by(CO2,
+                                        Plant,
+                                        Type,
+                                        Treatment)
+
+CO2_fit <- CO2_by_Plant_Type_Treatment %>%
+          do(model=lm(uptake~conc, data=.))
+
+```
+
+produces a list of model objects
+
+do and broom
+===
 
 
-$$
-\sum_{i=January}^{i=December}\left\lvert x_i- \bar x _{i2002-2014} \right\rvert
-$$
+```{r fig.width=3, fig.height=3}
+require(broom)
+CO2_fit <- CO2_by_Plant_Type_Treatment %>%
+          do(tidy(lm(uptake~conc, data=.)))
+
+```
+
+Exercise 3
+===
+
+- Calculate the slope and the R2 value for the correlation between sepal length and width individually for each species in the iris dataset
 
 
 Chaining operations
@@ -312,10 +407,10 @@ CO2_max_per_plant <-CO2 %>%
 
 
 
-Exercise 3
+Exercise 4
 ===
 
-- convert code from previous exercises (1 & 2) using `%>%` chaining
+- convert code from previous exercises (1,2 &3) using `%>%` chaining
   -convert the `summarise` of the iris data set
   -convert the `mutate` of the monthly temperature
 
@@ -325,7 +420,7 @@ Exercise 3
 <script src="countdown.js" type="text/javascript"></script>
 <script type="application/javascript">
 var myCountdown1 = new Countdown({
-    							time: 300, 
+    							time: 600, 
 									width:150, 
 									height:80, 
 									rangeHi:"minute"	// <- no comma on last item!
@@ -334,47 +429,76 @@ var myCountdown1 = new Countdown({
 </script>
 
 </div>
+
+
+
+
+
+
+
+Split verbes
+===
+
+- `filter`
+```{r eval=F}
+filter(iris, Sepal.Width==3)
+ 
+mtcars[iris$Sepal.Width == 3,]
+```
+
+- `select`
+```{r eval=F}
+select(iris, Species)
+iris[,"Species"]
+```
+
+```{r eval=F}
+select(iris, starts_with("Petal"))
+```
 
 
 dplyr database
 ===
 
-dplyr can do most calculations in the database
-
 note that `dplyr` will only execute database calls when needed  
 (when manipulated is being called eg. by `print()`)
 
 
-
-
-Exercise 4
+dplyr database
 ===
 
-- load all files in `temperature_timeseries` using `ldply()`
-- Calculate the annual absolute integrated anomaly for each site (`mutate`)
-- Plot the annual absolute integrated anomaly for each site (`qplot`)
+https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html
 
-<div class="centered">
+create a database
+```{r eval=F}
+my_db <- src_sqlite("my_db.sqlite3", create = T)
+```
 
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown1 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
-
-
-
-
-
-Feedback
+dplyr database
 ===
 
-[Feedback form](https://goo.gl/forms/1eCOYxMYKuzDfTu62)
-http://goo.gl/forms/3mH1UC0fH3
+load data into the database
+```{r eval=F}
+CO2_sqlite <- copy_to(my_db,
+                      CO2, 
+                      temporary = FALSE,
+                      indexes = list("Plant",
+                                     "Type",
+                                     "Treatment",
+                                     "conc",
+                                     "uptake"))
+```
+
+dplyr database
+===
+
+use the tables from a database as a regular data.frame
+
+```{r eval=F}
+CO2_max_per_plant <-CO2_sqlite %>%
+                      group_by(Plant,
+                                Type,
+                                Treatment)  %>%
+                      summarise(max_uptake=max(uptake)) 
+```
+
