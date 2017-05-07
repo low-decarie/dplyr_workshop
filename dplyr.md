@@ -12,7 +12,7 @@ transition: fade
 dplyr and plyr
 ===
 
-![plot of chunk unnamed-chunk-1](dplyr-figure/unnamed-chunk-1-1.png) 
+![plot of chunk unnamed-chunk-1](dplyr-figure/unnamed-chunk-1-1.png)
 
 
 
@@ -118,19 +118,19 @@ print(CO2_by_Plant_Type_Treatment)
 Source: local data frame [84 x 5]
 Groups: Plant, Type, Treatment [12]
 
-    Plant   Type  Treatment  conc uptake
-   (fctr) (fctr)     (fctr) (dbl)  (dbl)
-1     Qn1 Quebec nonchilled    95   16.0
-2     Qn1 Quebec nonchilled   175   30.4
-3     Qn1 Quebec nonchilled   250   34.8
-4     Qn1 Quebec nonchilled   350   37.2
-5     Qn1 Quebec nonchilled   500   35.3
-6     Qn1 Quebec nonchilled   675   39.2
-7     Qn1 Quebec nonchilled  1000   39.7
-8     Qn2 Quebec nonchilled    95   13.6
-9     Qn2 Quebec nonchilled   175   27.3
-10    Qn2 Quebec nonchilled   250   37.1
-..    ...    ...        ...   ...    ...
+   Plant   Type  Treatment  conc uptake
+*  <ord> <fctr>     <fctr> <dbl>  <dbl>
+1    Qn1 Quebec nonchilled    95   16.0
+2    Qn1 Quebec nonchilled   175   30.4
+3    Qn1 Quebec nonchilled   250   34.8
+4    Qn1 Quebec nonchilled   350   37.2
+5    Qn1 Quebec nonchilled   500   35.3
+6    Qn1 Quebec nonchilled   675   39.2
+7    Qn1 Quebec nonchilled  1000   39.7
+8    Qn2 Quebec nonchilled    95   13.6
+9    Qn2 Quebec nonchilled   175   27.3
+10   Qn2 Quebec nonchilled   250   37.1
+# ... with 74 more rows
 ```
 
 ```r
@@ -180,12 +180,12 @@ Split-**Apply-Combine**
 - `mutate`
 
 
-![plot of chunk unnamed-chunk-6](dplyr-figure/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-6](dplyr-figure/unnamed-chunk-6-1.png)
 
 - `summarise`
 
 
-![plot of chunk unnamed-chunk-7](dplyr-figure/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](dplyr-figure/unnamed-chunk-7-1.png)
 
 
 Summarize grouped data
@@ -205,20 +205,20 @@ print(CO2_max_per_plant)
 Source: local data frame [12 x 4]
 Groups: Plant, Type [?]
 
-    Plant        Type  Treatment max_uptake
-   (fctr)      (fctr)     (fctr)      (dbl)
-1     Qn1      Quebec nonchilled       39.7
-2     Qn2      Quebec nonchilled       44.3
-3     Qn3      Quebec nonchilled       45.5
-4     Qc1      Quebec    chilled       38.7
-5     Qc3      Quebec    chilled       41.4
-6     Qc2      Quebec    chilled       42.4
-7     Mn3 Mississippi nonchilled       28.5
-8     Mn2 Mississippi nonchilled       32.4
-9     Mn1 Mississippi nonchilled       35.5
-10    Mc2 Mississippi    chilled       14.4
-11    Mc3 Mississippi    chilled       19.9
-12    Mc1 Mississippi    chilled       22.2
+   Plant        Type  Treatment max_uptake
+   <ord>      <fctr>     <fctr>      <dbl>
+1    Qn1      Quebec nonchilled       39.7
+2    Qn2      Quebec nonchilled       44.3
+3    Qn3      Quebec nonchilled       45.5
+4    Qc1      Quebec    chilled       38.7
+5    Qc3      Quebec    chilled       41.4
+6    Qc2      Quebec    chilled       42.4
+7    Mn3 Mississippi nonchilled       28.5
+8    Mn2 Mississippi nonchilled       32.4
+9    Mn1 Mississippi nonchilled       35.5
+10   Mc2 Mississippi    chilled       14.4
+11   Mc3 Mississippi    chilled       19.9
+12   Mc1 Mississippi    chilled       22.2
 ```
 
 
@@ -247,7 +247,7 @@ p <- ggplot(data=CO2_max_per_plant,
 ***
 
 
-![plot of chunk unnamed-chunk-11](dplyr-figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](dplyr-figure/unnamed-chunk-11-1.png)
 
 
 Create a beautiful table of summarized data
@@ -261,7 +261,7 @@ grid.newpage()
 grid.table(head(data.frame(CO2_max_per_plant)))
 ```
 
-![plot of chunk unnamed-chunk-12](dplyr-figure/unnamed-chunk-12-1.png) 
+![plot of chunk unnamed-chunk-12](dplyr-figure/unnamed-chunk-12-1.png)
 
 Exercise 1
 ===
@@ -311,7 +311,7 @@ CO2.plot <- qplot(data = CO2_with_deviation,
 print(CO2.plot)
 ```
 
-![plot of chunk unnamed-chunk-14](dplyr-figure/unnamed-chunk-14-1.png) 
+![plot of chunk unnamed-chunk-14](dplyr-figure/unnamed-chunk-14-1.png)
 
 
 
@@ -362,7 +362,7 @@ p <- ggplot(data=CO2_fit,aes(x=Type,
 
 ***
 
-![plot of chunk unnamed-chunk-18](dplyr-figure/unnamed-chunk-18-1.png) 
+![plot of chunk unnamed-chunk-18](dplyr-figure/unnamed-chunk-18-1.png)
 
 
 

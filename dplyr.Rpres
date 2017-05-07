@@ -426,7 +426,7 @@ dplyr database
 https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html
 
 create a database
-```{r}
+```{r eval=F}
 my_db <- src_sqlite("my_db.sqlite3", create = T)
 ```
 
